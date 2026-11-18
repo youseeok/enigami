@@ -54,8 +54,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:22px 2
 .shw .btn{border-color:#1a1a1a;color:#1a1a1a}
 .shw .b1{background:#fff}.shw .b2{background:var(--pink)}.shw .b3{background:var(--blue)}.shw .b4{background:var(--yellow)}.shw .b5{background:#1a1a1a;color:#fff}
 footer{text-align:center;color:var(--mute);font-size:13px;padding:36px 20px 40px}
-.stats,.gh,.shw,footer{position:relative}.mon{position:absolute;z-index:-1;pointer-events:none;animation:bob 3.5s ease-in-out infinite}.mon svg{width:100%;display:block}@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}.mf{height:1.05em;width:auto;margin-right:.4em;vertical-align:-.15em}@media(prefers-reduced-motion:reduce){.mon{animation:none}}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.modal{grid-template-columns:1fr}.mon{width:64px!important}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.modal{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -114,21 +113,13 @@ var IC={
 };
 var TXT="Studio Enigami × Warkop Mardomu {cup} mengajak kamu mengoleksi karya {brush} lukisan anak-anak {star}. Sebagian penjualan karya lukisan anak-anak untuk charity ke yayasan kanker anak-anak {heart}, supaya setiap warna {rainbow} membawa harapan {flower} yang besar {eye}.";
 stmt.innerHTML=TXT.replace(/\{(\w+)\}/g,function(_,k){return IC[k]||""});
-var K='stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
-function mon(c,v){var b=v?'<path d="M30 30l-8-20 18 12zM70 30l8-20-18 12z" fill="'+c+'"/><rect x="22" y="22" width="56" height="66" rx="26" fill="'+c+'"/><circle cx="50" cy="48" r="15" fill="#fff"/><circle cx="52" cy="50" r="7" fill="#1a1a1a"/><path d="M34 72q16 12 32 0" fill="none"/><path d="M34 90v6M66 90v6"/>':'<path d="M20 44l-8-24 20 14 8-20 10 18 10-20 8 22 18-12-6 22z" fill="'+c+'"/><ellipse cx="50" cy="60" rx="38" ry="32" fill="'+c+'"/><circle cx="34" cy="52" r="9" fill="#fff"/><circle cx="62" cy="48" r="12" fill="#fff"/><circle cx="36" cy="53" r="4" fill="#1a1a1a"/><circle cx="60" cy="50" r="5.5" fill="#1a1a1a"/><path d="M32 72q18 16 36 0z" fill="#fff"/><path d="M28 90v6M50 92v6M72 90v6"/>';return '<svg viewBox="0 0 100 100" '+K+'>'+b+'</svg>'}
-function face(c){return '<svg class="mf" viewBox="0 0 24 24" stroke="#1a1a1a" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M6 6l-1-4 4 2M18 6l1-4-4 2" fill="'+c+'"/><circle cx="12" cy="13" r="9" fill="'+c+'"/><circle cx="9" cy="11" r="2.6" fill="#fff"/><circle cx="15.5" cy="10.5" r="3" fill="#fff"/><circle cx="9.3" cy="11.3" r="1" fill="#1a1a1a" stroke="none"/><circle cx="15.2" cy="10.8" r="1.1" fill="#1a1a1a" stroke="none"/><path d="M8 17q4 3 8 0" fill="none"/></svg>'}
-function put(s,c,v,css){var p=document.querySelector(s),d=document.createElement("div");d.className="mon";d.style.cssText=css;d.innerHTML=mon(c,v);p.appendChild(d)}
-put(".stats","#e3201b",0,"right:2%;top:-44px;width:96px");
-put(".gh","#7db4e6",1,"right:4%;bottom:6px;width:84px");
-put("#share","#f9d423",0,"right:6%;top:-58px;width:110px;z-index:1");
-put("footer","#f27bb5",1,"left:8%;top:-10px;width:70px");
 var cart=[],cur=0;
 function img(i){var x=ART[i],h=x.h;return "data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 '+h+'"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+x.c[1]+'"/><stop offset="1" stop-color="#e9e9f2"/></linearGradient></defs><rect width="240" height="'+h+'" fill="url(#g)"/><circle cx="120" cy="'+h*0.5+'" r="'+h*0.28+'" fill="'+x.c[0]+'"/><circle cx="150" cy="'+h*0.45+'" r="12" fill="#fff"/><circle cx="150" cy="'+h*0.45+'" r="5" fill="#111"/></svg>')}
 function rp(n){return "Rp "+n.toLocaleString("id-ID")}
 
 vis.textContent=VISITORS;n.textContent=ART.length;
 grid.innerHTML=ART.map(function(x,i){return '<button class="item" onclick="openM('+i+')"><div class="tile" style="background:'+TILE[i%TILE.length]+'"><img src="'+img(i)+'" alt="'+x.t+'"></div><div class="cap"><span class="hand">'+x.t+'</span><span>'+rp(x.p)+'</span></div></button>'}).join("");
-function openM(i){cur=i;var x=ART[i];md.innerHTML='<button id="x" onclick="closeM()" aria-label="Tutup">×</button><div class="l" style="background:'+TILE[i%TILE.length]+'"><img src="'+img(i)+'" alt="'+x.t+'"></div><div class="mi"><h3 class="hand">'+x.t+'</h3><dl><dt>Nama artist</dt><dd>'+x.a+'</dd><dt>Detail lukisan</dt><dd>'+x.d+'</dd><dt>Story</dt><dd>'+x.s+'</dd></dl><div class="price hand">'+rp(x.p)+'</div><button class="btn p" onclick="add()">'+face("#f9d423")+'+ Keranjang</button><button class="btn" onclick="buy()">'+face("#e3201b")+'Beli sekarang</button></div>';ov.classList.add("on")}
+function openM(i){cur=i;var x=ART[i];md.innerHTML='<button id="x" onclick="closeM()" aria-label="Tutup">×</button><div class="l" style="background:'+TILE[i%TILE.length]+'"><img src="'+img(i)+'" alt="'+x.t+'"></div><div class="mi"><h3 class="hand">'+x.t+'</h3><dl><dt>Nama artist</dt><dd>'+x.a+'</dd><dt>Detail lukisan</dt><dd>'+x.d+'</dd><dt>Story</dt><dd>'+x.s+'</dd></dl><div class="price hand">'+rp(x.p)+'</div><button class="btn p" onclick="add()">+ Keranjang</button><button class="btn" onclick="buy()">Beli sekarang</button></div>';ov.classList.add("on")}
 function closeM(){ov.classList.remove("on")}
 ov.onclick=function(e){if(e.target==ov)closeM()};
 function add(){if(cart.indexOf(cur)<0)cart.push(cur);cc.textContent=cart.length;cc.style.display="flex";closeM()}
@@ -138,8 +129,8 @@ function go(list){var s=0,l=list.map(function(i,k){s+=ART[i].p;return (k+1)+". "
 function buy(){go([cur])}
 function checkout(){if(cart.length)go(cart);else document.getElementById("galeri").scrollIntoView()}
 var U=location.href.split("#")[0],T="Lihat karya lukisan anak-anak ini, sebagian penjualan disumbangkan untuk yayasan kanker anak-anak.",q=encodeURIComponent;
-function link(c,n,u){return '<a class="btn '+c+'" target="_blank" rel="noopener" href="'+u+'">'+face("#e3201b")+n+'</a>'}
-sh.innerHTML=link("b1","WhatsApp","https://wa.me/?text="+q(T+" "+U))+'<button class="btn b2" id="ig" onclick="cp(true)">'+face("#e3201b")+'Instagram</button>'+link("b3","Facebook","https://www.facebook.com/sharer/sharer.php?u="+q(U))+link("b4","Threads","https://www.threads.net/intent/post?text="+q(T+" "+U))+'<button class="btn b5" id="cb" onclick="cp(false)">'+face("#f9d423")+'Salin link</button>';
+function link(c,n,u){return '<a class="btn '+c+'" target="_blank" rel="noopener" href="'+u+'">'+n+'</a>'}
+sh.innerHTML=link("b1","WhatsApp","https://wa.me/?text="+q(T+" "+U))+'<button class="btn b2" id="ig" onclick="cp(true)">Instagram</button>'+link("b3","Facebook","https://www.facebook.com/sharer/sharer.php?u="+q(U))+link("b4","Threads","https://www.threads.net/intent/post?text="+q(T+" "+U))+'<button class="btn b5" id="cb" onclick="cp(false)">Salin link</button>';
 function cp(ig){var b=ig?document.getElementById("ig"):cb,old=b.innerHTML;
  var done=function(){b.textContent=ig?"Link tersalin, tempel di IG ✓":"Link tersalin ✓";if(ig)window.open("https://www.instagram.com/","_blank");setTimeout(function(){b.innerHTML=old},3000)};
  try{navigator.clipboard.writeText(U).then(done,done)}catch(e){done()}}
